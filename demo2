@@ -1,0 +1,25 @@
+import requests
+import csv
+import pandas as pd
+from bs4 import BeautifulSoup
+import pandas as pd
+
+products = []
+prices = []
+status = []
+url = "https://list.tmall.com/search_product.htm?q=%D2%A9%B5%EA&type=p&spm=a220m.1000858.a2227oh.d100&from=.list.pc_1_searchbutton"
+quote_page = requests.get(url) 
+# print("\n***** Page " + str(i) +" in action *****")
+soup = BeautifulSoup(quote_page.content,'html.parser')
+for item in soup.findAll("div", attrs={"class":"product-iWrap"}):         
+    title = item.find("div",attrs={"class":"productTitle"})
+    price = item.find("div",attrs={"class":"productPrice"})
+    status = item.find("div",attrs={"class":"productStatus"})     
+    
+    products.append(title.text)
+    prices.append(price.text)
+    status.append(status.text) 
+                
+df=pd.DataFrame({"Product Name":products,"Prices":prices, "Status":status})           
+df      
+output: a blank list just have title on it.
